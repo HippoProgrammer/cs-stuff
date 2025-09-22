@@ -25,9 +25,9 @@ def hl2int(hl:str):
     elif hl.lower() == 'l':
         return 0
     elif hl.lower() == 'c':
-        raise UserException('I was right. Guesses: {i}'.format())
+        raise Exception('I was right. Guesses: {i}'.format())
     else:
-        raise UserException('help')
+        raise Exception('help')
 
 while not numFound:
     cg = computerGuess()
