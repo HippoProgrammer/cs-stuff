@@ -38,4 +38,4 @@ print('Ending sort...')
 endTime = time()
 timeTaken = endTime - startTime
 print('Sorted list: ' + str(values))
-print('Bubble sort has a big O of n^2. Calculated n is '+str(sqrt(timeTaken)))
+ # print('Bubble sort has a big O of n^2. Calculated n is '+str(sqrt(timeTaken)))
