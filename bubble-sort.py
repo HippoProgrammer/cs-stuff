@@ -4,9 +4,14 @@ from time import time
 from math import sqrt
 
 # Get user input
-minValue = int(input('Minimum item value? '))
-maxValue = int(input('Maximum item value? '))
-numValues = int(input('Number of item values? '))
+while True:
+    try:
+        minValue = int(input('Minimum item value? '))
+        maxValue = int(input('Maximum item value? '))
+        numValues = int(input('Number of item values? '))
+        break
+    except ValueError:
+        continue
 
 # Create a random list
 values = []
@@ -18,22 +23,32 @@ for i in range(numValues):
 print('Random list: ' + str(values))
 
 # Sort
+maxMaxPassValue = len(values)-1
 maxPassValue = len(values)-1
 startTime = time()
 print('Beginning sort... ')
-with alive_bar(maxPassValue) as bar:
-    while not maxPassValue == 0:
-        for workingIndex in range(0,maxPassValue):
-            workingValues = [values.pop(workingIndex),values.pop(workingIndex)] # remember by the time the second pop executes all indexes will move down by one
-            if workingValues[1] < workingValues[0]:
-                # Swap
-                values.insert(workingIndex,workingValues[1])
-                values.insert(workingIndex+1,workingValues[0])
-            else:
-                values.insert(workingIndex,workingValues[0])
-                values.insert(workingIndex+1,workingValues[1])
-        bar()
-        maxPassValue -= 1
+try:
+    with alive_bar(maxPassValue) as bar:
+        noSwapDone = True
+        while not maxPassValue == 0:
+            for workingIndex in range(0,maxPassValue):
+                workingValues = [values.pop(workingIndex),values.pop(workingIndex)] # remember by the time the second pop executes all indexes will move down by one
+                if workingValues[1] < workingValues[0]:
+                    # Swap
+                    values.insert(workingIndex,workingValues[1])
+                    values.insert(workingIndex+1,workingValues[0])
+                    noSwapDone = False
+                else:
+                    values.insert(workingIndex,workingValues[0])
+                    values.insert(workingIndex+1,workingValues[1])
+            bar()
+            maxPassValue -= 1
+            if noSwapDone:
+                for i in range(maxMaxPassValue-bar.current):
+                    bar()
+                break
+except KeyboardInterrupt:
+    print('Press CTRL-C again to quit.')
 print('Ending sort...')
 endTime = time()
 timeTaken = endTime - startTime
