@@ -59,3 +59,10 @@ def dayInput(prompt):
         return dayAliases[rawInput]
     except KeyError:
         return -1
+class InputNotValidException(Exception):
+    pass
+def isIntBetweenValues(integer:int,valueLower:int,valueHigher:int):
+    if integer >= valueLower and integer <= valueHigher:
+        return True
+    else:
+        return False
