@@ -66,3 +66,9 @@ def isIntBetweenValues(integer:int,valueLower:int,valueHigher:int):
         return True
     else:
         return False
+def getBoolFromStrInput(prompt:str):
+    rawInput = input(prompt)
+    if rawInput.lower() == 'y':
+        return True
+    else:
+        return False

@@ -34,3 +34,28 @@ print(''' q15.py  Copyright (C) 2025  HippoProgrammer
     This program comes with ABSOLUTELY NO WARRANTY.
     This is free software, and you are welcome to redistribute it
     under certain conditions.''')
+
+def getBoolFromStrInput(prompt:str):
+    rawInput = input(prompt)
+    if rawInput.lower() == 'y':
+        return True
+    else:
+        return False
+
+amount = int(input('Purchase amount: '))
+loyalty = getBoolFromStrInput('Loyalty member (y/N): ')
+if loyalty:
+    years = int(input('Years as member: '))
+    if years <= 2:
+        amount *= 0.95
+    elif years <= 5:
+        amount *= 0.9
+    else:
+        amount *= 0.85
+
+
+if amount > 100:
+    print(amount * 0.95)
+else:
+    print(amount)
+
