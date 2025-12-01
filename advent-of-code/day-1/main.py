@@ -7,16 +7,13 @@ def instruction2AbsoluteVal(instruction:str):
         instructionValue *= -1
     return instructionValue
 
-def loopOver(value:int,repeater:int): # this function is really bodged - DO NOT USE IN OTHER PROGRAMS
-    timesAtZero = 0
-    newvalue = deepcopy(value)
+def loopOver(value:int,repeater:int): 
     if value < 0:
-        timesAtZero += abs(value) // repeater
+        timesAtZero = abs(value) // repeater
         newvalue = repeater - (abs(value) % repeater)
-    elif value >= repeater:
-        timesAtZero += abs(value) // repeater
-        newvalue = newvalue - repeater # until value less than repeater, decrement
-        
+    else:
+        timesAtZero = abs(value) // repeater
+        newvalue = abs(value) % repeater # until value less than repeater, decrement
     return [newvalue, timesAtZero]
      
 with open('/workspaces/cs-stuff/advent-of-code/day-1/input.txt','r') as inputFile:
@@ -32,9 +29,6 @@ for instruction in inputList: # for each instruction
     currentPos = aaaa[0]
     timesAtZero += aaaa[1]
     print(f'currentPos After: {currentPos}')
-    #if currentPos == 1:
-    #    timesAtZero += 1
-    sleep(0.001)
 
 print(timesAtZero)
 
