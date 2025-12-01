@@ -32,6 +32,6 @@ with alive_bar(len(inputList)) as bar:
             timesAtZero += 1
         bar()
 
-print(timesAtZero)
+print(loopOver(timesAtZero,maxPos))
 
 
