@@ -1,4 +1,5 @@
 from time import sleep
+from copy import deepcopy
 def instruction2AbsoluteVal(instruction:str):
     '''Converts an L/Rint form instruction to a signed int'''
     instructionValue = int(instruction[1:]) # take value given after the direction indicator
@@ -8,15 +9,15 @@ def instruction2AbsoluteVal(instruction:str):
 
 def loopOver(value:int,repeater:int): # this function is really bodged - DO NOT USE IN OTHER PROGRAMS
     timesAtZero = 0
-    newvalue = value
-    while newvalue < 0:
-        for i in range(abs(value) // repeater)
-        newvalue = repeater - (abs(value) // repeater) # if value less than repeater, set to higher
+    newvalue = deepcopy(value)
+    if value < 0:
         timesAtZero += abs(value) // repeater
-    while newvalue >= repeater:
+        newvalue = repeater - (abs(value) % repeater)
+    elif value >= repeater:
+        timesAtZero += abs(value) // repeater
         newvalue = newvalue - repeater # until value less than repeater, decrement
-        timesAtZero += 1
-    return [value, timesAtZero]
+        
+    return [newvalue, timesAtZero]
      
 with open('/workspaces/cs-stuff/advent-of-code/day-1/input.txt','r') as inputFile:
     inputData = inputFile.read() # read input file
