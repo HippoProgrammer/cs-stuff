@@ -13,7 +13,7 @@ def loopOver(value:int,repeater:int): # this function is really bodged - DO NOT 
             value = value - repeater # until value less than repeater, decrement
     return value
      
-with open('/workspaces/cs-stuff/advent-of-code/day-1/input.txt','r') as inputFile:
+with open('/workspaces/cs-stuff/advent-of-code/day-1/test_input.txt','r') as inputFile:
     inputData = inputFile.read() # read input file
 inputList = inputData.split('\n') # split the input data by newlines to get raw data
 
