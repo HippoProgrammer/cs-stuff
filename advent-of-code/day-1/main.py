@@ -1,3 +1,4 @@
+from time import sleep
 def instruction2AbsoluteVal(instruction:str):
     '''Converts an L/Rint form instruction to a signed int'''
     instructionValue = int(instruction[1:]) # take value given after the direction indicator
@@ -6,14 +7,18 @@ def instruction2AbsoluteVal(instruction:str):
     return instructionValue
 
 def loopOver(value:int,repeater:int): # this function is really bodged - DO NOT USE IN OTHER PROGRAMS
-    if value < 0:
-        value = repeater - abs(value) # if value less than repeater, set to higher
-    else:
-        while value >= repeater:
-            value = value - repeater # until value less than repeater, decrement
-    return value
+    timesAtZero = 0
+    newvalue = value
+    while newvalue < 0:
+        for i in range(abs(value) // repeater)
+        newvalue = repeater - (abs(value) // repeater) # if value less than repeater, set to higher
+        timesAtZero += abs(value) // repeater
+    while newvalue >= repeater:
+        newvalue = newvalue - repeater # until value less than repeater, decrement
+        timesAtZero += 1
+    return [value, timesAtZero]
      
-with open('/workspaces/cs-stuff/advent-of-code/day-1/test_input.txt','r') as inputFile:
+with open('/workspaces/cs-stuff/advent-of-code/day-1/input.txt','r') as inputFile:
     inputData = inputFile.read() # read input file
 inputList = inputData.split('\n') # split the input data by newlines to get raw data
 
@@ -21,11 +26,14 @@ currentPos = 51 # the wheel started at 50
 maxPos = 100
 timesAtZero = 0
 for instruction in inputList: # for each instruction
-    #print(f'Raw: {instruction}, Parsed: {instruction2AbsoluteVal(instruction)}, currentPos Before: {currentPos}')
-    currentPos = loopOver(currentPos + instruction2AbsoluteVal(instruction), maxPos)
-    #print(f'currentPos After: {currentPos}')
-    if currentPos == 1:
-        timesAtZero += 1
+    print(f'Raw: {instruction}, Parsed: {instruction2AbsoluteVal(instruction)}, currentPos Before: {currentPos}')
+    aaaa = loopOver(currentPos + instruction2AbsoluteVal(instruction), maxPos)
+    currentPos = aaaa[0]
+    timesAtZero += aaaa[1]
+    print(f'currentPos After: {currentPos}')
+    #if currentPos == 1:
+    #    timesAtZero += 1
+    sleep(0.001)
 
 print(timesAtZero)
 
