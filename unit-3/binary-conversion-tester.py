@@ -40,7 +40,6 @@ while True:
         try:
             start_time = time.time()
             int_value = random.randint(min_val,max_val)
-            questions += 1
             if option == 1:
                 value = int_value
                 print(f'Convert {value}.')
@@ -101,6 +100,7 @@ while True:
                 else:
                     print(f'Incorrect. Correct answer: {answer}')
                     incorrect += 1
+            questions += 1
         except KeyboardInterrupt:
             end_time = time.time()
             total_time = end_time - start_time
