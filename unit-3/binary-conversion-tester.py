@@ -13,9 +13,64 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.'''
-import math
+import math, random
 print(''' binary-conversion-tester.py  Copyright (C) 2026  HippoProgrammer
     This program comes with ABSOLUTELY NO WARRANTY.
     This is free software, and you are welcome to redistribute it
     under certain conditions.''')
-print('Binary Conversion Tester')
+
+min_val = 1
+max_val = 256
+
+print('Binary Conversion Tester\nOptions:\n1.Denary -> Binary\n2.Binary -> Denary\n3.Denary -> Hex\n4.Hex -> Denary\n5.Binary -> Hex\n6.Hex -> Binary')
+option = int(input('Select an option (1/2/3/4/5/6): '))
+while True:
+    int_value = random.randint(min_val,max_val)
+    if option == 1:
+        value = int_value
+        print(f'Convert {value}.')
+        answer = '{:b}'.format(int_value)
+        if input('Answer: ') == answer:
+            print(f'Correct! It is {answer}!')
+        else:
+            print(f'Incorrect. Correct answer: {answer}')
+    elif option == 2:
+        value = '{:b}'.format(int_value)
+        print(f'Convert {value}.')
+        answer = str(int_value)
+        if input('Answer: ') == answer:
+            print(f'Correct! It is {answer}!')
+        else:
+            print(f'Incorrect. Correct answer: {answer}')
+    elif option == 3:
+        value = int_value
+        print(f'Convert {value}.')
+        answer = '{:x}'.format(int_value)
+        if input('Answer: ') == answer:
+            print(f'Correct! It is {answer}!')
+        else:
+            print(f'Incorrect. Correct answer: {answer}')
+    elif option == 4:
+        value = '{:x}'.format(int_value)
+        print(f'Convert {value}.')
+        answer = str(int_value)
+        if input('Answer: ') == answer:
+            print(f'Correct! It is {answer}!')
+        else:
+            print(f'Incorrect. Correct answer: {answer}')
+    elif option == 5:
+        value = '{:b}'.format(int_value)
+        print(f'Convert {value}.')
+        answer = '{:x}'.format(int_value)
+        if input('Answer: ') == answer:
+            print(f'Correct! It is {answer}!')
+        else:
+            print(f'Incorrect. Correct answer: {answer}')
+    elif option == 6:
+        value = '{:x}'.format(int_value)
+        print(f'Convert {value}.')
+        answer = '{:b}'.format(int_value)
+        if input('Answer: ') == answer:
+            print(f'Correct! It is {answer}!')
+        else:
+            print(f'Incorrect. Correct answer: {answer}')
