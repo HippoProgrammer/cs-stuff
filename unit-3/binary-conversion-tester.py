@@ -33,7 +33,7 @@ while True:
         start_time = 0
         questions = 0
     except KeyboardInterrupt:
-        print('Exiting. Thanks for playing!')
+        print('\nExiting. Thanks for playing!')
         break
     print('Session started. Press CTRL-C to stop session.')
     while True:
@@ -104,7 +104,7 @@ while True:
         except KeyboardInterrupt:
             end_time = time.time()
             total_time = end_time - start_time
-            avg_time = total_time / questions
-            percentage_correct = correct * 100 / questions
+            avg_time = round(total_time / questions,1)
+            percentage_correct = round(correct * 100 / questions,1)
             print(f'Session completed. {percentage_correct}% correct. {avg_time}s per question on average.')
             break
