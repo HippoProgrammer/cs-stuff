@@ -26,20 +26,20 @@ print('Binary Conversion Tester')
 print('Press CTRL-C to exit program.')
 while True:
     try:
-        print('Options:\n1.Denary -> Binary\n2.Binary -> Denary\n3.Denary -> Hex\n4.Hex -> Denary\n5.Binary -> Hex\n6.Hex -> Binary')
+        print('\nOptions:\n1.Denary -> Binary\n2.Binary -> Denary\n3.Denary -> Hex\n4.Hex -> Denary\n5.Binary -> Hex\n6.Hex -> Binary')
         option = int(input('Select an option (1/2/3/4/5/6): '))
         correct = 0
         incorrect = 0
-        start_time = 0
         questions = 0
     except KeyboardInterrupt:
         print('\nExiting. Thanks for playing!')
         break
     print('Session started. Press CTRL-C to stop session.')
+    start_time = time.time()
     while True:
         try:
-            start_time = time.time()
             int_value = random.randint(min_val,max_val)
+            print('\n')
             if option == 1:
                 value = int_value
                 print(f'Convert {value}.')
@@ -106,5 +106,5 @@ while True:
             total_time = end_time - start_time
             avg_time = round(total_time / questions,1)
             percentage_correct = round(correct * 100 / questions,1)
-            print(f'Session completed. {percentage_correct}% correct. {avg_time}s per question on average.')
+            print(f'\nSession completed. {percentage_correct}% correct. {avg_time}s per question on average.')
             break
