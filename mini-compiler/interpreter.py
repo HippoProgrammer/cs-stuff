@@ -17,16 +17,27 @@
 example functionality:
 y = 1 + 2 
 y = 1 + y;
-
+if y > 3 y = 3 else y = 4
+while y > 3 y = y + 1
 '''
-class InterpretingException(Exception):
+import warnings # add warnings
+# add better error handling
+class InterpretingException(Exception): # a basic error
     pass
 class Interpreter:
     def __init__(self,variables:dict):
         self.variables = variables
         self.operators = ['=','+','-','*','/']
         pass
-    def interpretLine(self,lineSections:list,line_no = 1): # lineSections should consist of a list derived from a str.split() method
+    def addVariable(self,variable:tuple):
+        self.variables[variable[0]] = variable[1]
+    def delVariable(self,variable_key:str):
+        del self.variables[variable_key]
+    def interpretString(self,line,line_no = 1):
+        '''Method that takes line as str, splits it into constituent parts and passes it to be interpreted.'''
+        return self.__interpretLine(line.split(' '),line_no)
+    def __interpretLine(self,lineSections:list,line_no = 1): # lineSections should consist of a list derived from a str.split() method
+        '''Private method that interprets split lines. Functions like interpretString should always be preferred for frontend usage. Note: the interpreter is very broken currently'''
         for section in lineSections:
             if len(lineSections) == 1: # there is no operator, so we need to eval a number or a variable
                 try:
@@ -35,20 +46,58 @@ class Interpreter:
                     return self.variables[section]
             elif lineSections[lineSections.index(section) + 1] in self.operators or lineSections[lineSections.index(section) - 1] in self.operators:
                 pass # individual numbers and variables will be interpreted on their own
+            elif section == 'if': # must be an if statement
+                ifOperatorIndex = lineSections.index(section) # get if operator index
+                if 'else' in lineSections:
+                    elseOperatorIndex = lineSections.index('else')
+                if self.__interpretLine([lineSections[(ifOperatorIndex + 1):(ifOperatorIndex + 4)]]): # send the comparitive operator to the interpreter
+                    if 'else' in lineSections:
+                        return self.__interpretLine([lineSections[(ifOperatorIndex + 4):(elseOperatorIndex)]]) # if correct, execute the rest
+                    else:
+                        return self.__interpretLine([lineSections[(ifOperatorIndex + 4):]]) # if correct, execute the rest
+                elif 'else' in lineSections:
+                    return self.__interpretLine([lineSections[(elseOperatorIndex + 1):]])
+                else:
+                    return False
+            elif section == 'while':
+                operatorIndex = lineSections.index(section)
+                while self.__interpretLine([lineSections[(operatorIndex + 1):]]):
+                    pass
             elif section == '=': # must be a variable assign
-                self.variables[lineSections[0]] = self.interpretLine(lineSections[2:]) # assign value to variable equal to everything interpreted after the second operator (the equals)
-                break # the rest of this statement must be the value of the variable, so we'd better not reinterpret it
+                self.variables[lineSections[0]] = self.__interpretLine(lineSections[2:]) # assign value to variable equal to everything interpreted after the second operator (the equals)
+                return self.variables[lineSections[0]] # the rest of this statement must be the value of the variable, so we'd better not reinterpret it. note the variable assign returns the new value
+            elif section == '==':
+                operatorIndex = lineSections.index(section)
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) == self.__interpretLine(lineSections[(operatorIndex + 1):])
+            elif section == '===':
+                operatorIndex = lineSections.index(section)
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) == self.__interpretLine(lineSections[(operatorIndex + 1):])
+            elif section == '!=':
+                operatorIndex = lineSections.index(section)
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) != self.__interpretLine(lineSections[(operatorIndex + 1):])
+            elif section == '>':
+                operatorIndex = lineSections.index(section)
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) > self.__interpretLine(lineSections[(operatorIndex + 1):])
+            elif section == '<':
+                operatorIndex = lineSections.index(section)
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) < self.__interpretLine(lineSections[(operatorIndex + 1):])
+            elif section == '>=':
+                operatorIndex = lineSections.index(section)
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) >= self.__interpretLine(lineSections[(operatorIndex + 1):])
+            elif section == '<=':
+                operatorIndex = lineSections.index(section)
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) <= self.__interpretLine(lineSections[(operatorIndex + 1):])
             elif section == '+': # must be an addition
                 operatorIndex = lineSections.index(section)
-                return self.interpretLine([lineSections[operatorIndex - 1]]) + self.interpretLine(lineSections[(operatorIndex + 1):])
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) + self.__interpretLine(lineSections[(operatorIndex + 1):])
             elif section == '-':
                 operatorIndex = lineSections.index(section)
-                return self.interpretLine([lineSections[operatorIndex - 1]]) - self.interpretLine(lineSections[(operatorIndex + 1):])
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) - self.__interpretLine(lineSections[(operatorIndex + 1):])
             elif section == '*':
                 operatorIndex = lineSections.index(section)
-                return self.interpretLine([lineSections[operatorIndex - 1]]) * self.interpretLine(lineSections[(operatorIndex + 1):])
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) * self.__interpretLine(lineSections[(operatorIndex + 1):])
             elif section == '/':
                 operatorIndex = lineSections.index(section)
-                return self.interpretLine([lineSections[operatorIndex - 1]]) / self.interpretLine(lineSections[(operatorIndex + 1):])
+                return self.__interpretLine([lineSections[operatorIndex - 1]]) / self.__interpretLine(lineSections[(operatorIndex + 1):])
             else:
-                raise InterpretingException(f'Invalid command: {lineSections}')
+                raise InterpretingException(f'Invalid command on line {line_no}: {lineSections}. The command could not be parsed. Check for invalid keywords and syntax.') # more information helpful
