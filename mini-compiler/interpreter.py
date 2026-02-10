@@ -30,8 +30,10 @@ class Interpreter:
         self.operators = ['=','+','-','*','/']
         pass
     def addVariable(self,variable:tuple):
+        '''Method that adds a (key, value) pair to the variable storage.'''
         self.variables[variable[0]] = variable[1]
     def delVariable(self,variable_key:str):
+        '''Method that deletes a (key) pair from the variable storage.'''
         del self.variables[variable_key]
     def interpretString(self,line,line_no = 1):
         '''Method that takes line as str, splits it into constituent parts and passes it to be interpreted.'''
